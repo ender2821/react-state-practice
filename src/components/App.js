@@ -26,13 +26,30 @@ class App extends React.Component {
     loadSampleFishes = () => {
         this.setState({fishes: sampleFishes});
     }
+    addToOrder = (key) => {
+        // 1. Take a copy of state
+        const order = {...this.state.order}
+        // 2. Either add to our order or update the number in our order
+        order[key] = order[key] + 1 || 1;
+        // 3. Call set state to update our state opbject
+        this.setState({ order });
+
+        // You can all functions and run them in the console by first selecting the component you want to run on.
+        // Second you can use $r.whaterverFunction(shit passes here) to run it in the console and watch things like state update without use of a button
+    }
     render() {
         return(
             <div className='catch-of-the-day'>
                 <div className='menu'>
                     <Header tagline='Fresh Seafood Market'/>
                     <ul className='fishes'>
-                        {Object.keys(this.state.fishes).map(key => <Fish key={key} details={this.state.fishes[key]}/>)}
+                        {Object.keys(this.state.fishes).map(key => (
+                            <Fish 
+                                key={key} 
+                                index={key}
+                                details={this.state.fishes[key]} 
+                                addToOrder={this.addToOrder}/>
+                        ))}
                     </ul>
                 </div>
                 <Order />
